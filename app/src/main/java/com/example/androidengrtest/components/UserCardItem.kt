@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -37,16 +38,24 @@ fun UserCardItem(
                 .background(LightGreen)
         ) {
             Spacer(modifier = Modifier.height(8.dp))
-            Image(
-                painter = painterResource(id = R.drawable.user_normal),
-                contentDescription = "user",
-                Modifier
-                    .size(35.dp)
-                    .clip(RoundedCornerShape(2.dp))
-            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+
+                Spacer(modifier = Modifier.width(12.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.users_dash_ic),
+                    contentDescription = "user",
+                    Modifier
+                        .size(35.dp)
+                        .clip(RoundedCornerShape(2.dp))
+                )
+            }
+
             Spacer(modifier = Modifier.height(41.dp))
 
-            Row() {
+            Row {
                 Spacer(modifier = Modifier.width(14.dp))
 
                 Text(

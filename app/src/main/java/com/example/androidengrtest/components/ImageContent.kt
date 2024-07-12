@@ -2,6 +2,7 @@ package com.example.androidengrtest.components
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,9 +18,9 @@ fun ImageContent(imagePath: String) {
         model = imagePath,
         contentDescription = null,
         modifier = Modifier
-            .width(150.dp)
-            .height(220.dp)
-            .clip(RoundedCornerShape(16.dp)),
+            .width(45.dp)
+            .height(45.dp)
+            .clip(CircleShape),
         contentScale = ContentScale.Crop
     )
 

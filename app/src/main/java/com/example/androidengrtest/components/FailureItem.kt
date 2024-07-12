@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,10 +28,13 @@ fun FailureItem(
 
     Column(
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier.padding(
-            top = 100.dp,
-            bottom = 8.dp
-        )
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(
+                top = 20.dp,
+                bottom = 8.dp
+            )
+            .fillMaxSize()
     ) {
         Image(
             painter = painterResource(id = R.drawable.search_error_ic),
@@ -40,13 +44,24 @@ fun FailureItem(
                 .align(Alignment.CenterHorizontally)
         )
         Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = message,
-            color = Color.Black,
-            fontFamily = manropeFamily, fontWeight = FontWeight.Light,
-            modifier = Modifier.padding(start = 30.dp, end = 30.dp),
-            textAlign = TextAlign.Center
-        )
+        if (message.contains("401")) {
+            Text(
+                text = "Error: Unauthorized!!",
+                color = Color.Black,
+                fontFamily = manropeFamily, fontWeight = FontWeight.Light,
+                modifier = Modifier.padding(start = 30.dp, end = 30.dp),
+                textAlign = TextAlign.Center
+            )
+        } else {
+            Text(
+                text = message,
+                color = Color.Black,
+                fontFamily = manropeFamily, fontWeight = FontWeight.Light,
+                modifier = Modifier.padding(start = 30.dp, end = 30.dp),
+                textAlign = TextAlign.Center
+            )
+        }
+
     }
 
 }

@@ -35,7 +35,11 @@ fun RepositoryItemCard(
                 ).height(90.dp)
                 .fillMaxWidth()
         ) {
-            Header(repositoryItem)
+            repositoryItem.owner?.avatarUrl?.let { repositoryItem.fullName?.let { it1 ->
+                Header(it,
+                    it1
+                )
+            } }
             Spacer(modifier = Modifier.height(12.dp))
 
             repositoryItem.description?.let {
@@ -55,25 +59,22 @@ fun RepositoryItemCard(
 }
 
 @Composable
-fun Header(
-    repositoryItem: RepositoryItem
+fun Header(image: String, title: String
 ) {
     Row(
         modifier = Modifier.padding(start = 12.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        repositoryItem.owner?.avatarUrl?.let { CircularImageContent(it) }
+        CircularImageContent(image)
         Spacer(modifier = Modifier.width(8.dp))
 
-        repositoryItem.fullName?.let {
-            Text(
-                text = it,
-                color = Color.Black,
-                fontSize = 16.sp,
-                fontFamily = manropeFamily, fontWeight = FontWeight.Bold,
-                maxLines = 1
-            )
-        }
+        Text(
+            text = title,
+            color = Color.Black,
+            fontSize = 16.sp,
+            fontFamily = manropeFamily, fontWeight = FontWeight.Bold,
+            maxLines = 1
+        )
 
     }
 

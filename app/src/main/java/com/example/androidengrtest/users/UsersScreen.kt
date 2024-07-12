@@ -25,22 +25,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.androidengrtest.common.data.api.models.UserItem
+import com.example.androidengrtest.components.FailureItem
 import com.example.androidengrtest.components.MyButton
 import com.example.androidengrtest.components.SearchView
-import com.example.androidengrtest.repository.RepositoryViewModel
+import com.example.androidengrtest.components.UsersListItem
 import com.example.androidengrtest.ui.theme.manropeFamily
 
 
 @Composable
 fun UsersScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onUserClicked: (UserItem) -> Unit
 
 ) {
 
@@ -51,13 +53,14 @@ fun UsersScreen(
     val isLoading = searchUsersViewState.isLoading
     val isError = searchUsersViewState.isError
     val users = searchUsersViewState.users
+    val hasSearched = searchUsersViewState.hasSearched
 
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(start = 12.dp, end = 12.dp)
 
-        ) {
+    ) {
 
         var search by remember { mutableStateOf("") }
 
@@ -96,30 +99,34 @@ fun UsersScreen(
             }
         }
 
-        if(isLoading){
-            Box(modifier = Modifier.fillMaxSize()){
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
+        if (isError) {
+            FailureItem(searchUsersViewState.errorMessage)
         } else {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = modifier.fillMaxSize(),
-                content = {
-                    items(users) { user ->
-
-                        user.login?.let {
-                            Text(
-                                text = it,
-                                fontStyle = FontStyle.Normal,
-                                fontSize = 30.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-
-
-                    }
+            if (isLoading) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
-            )
+            } else {
+                if (users.isEmpty()) {
+                    if (hasSearched) {
+                        FailureItem("We've searched the ends of the earth. repository not found, please try again")
+                    } else {
+                        FailureItem("Search Github for repositories, issues and pull requests.")
+                    }
+                } else {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = modifier.fillMaxSize(),
+                        content = {
+                            items(users) { user ->
+                                UsersListItem(user, onUserClick = {
+                                    onUserClicked(it)
+                                })
+                            }
+                        }
+                    )
+                }
+            }
         }
 
 
@@ -130,5 +137,5 @@ fun UsersScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewTrendingScreen() {
-    UsersScreen()
+    //UsersScreen()
 }

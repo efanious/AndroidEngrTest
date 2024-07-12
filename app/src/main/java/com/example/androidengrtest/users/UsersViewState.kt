@@ -7,5 +7,6 @@ data class UsersViewState (
     val isLoading: Boolean = false,
     val users : List<UserItem> = emptyList(),
     val isError: Boolean = false,
-    val errorMessage: String = "An error occurred.."
+    val errorMessage: String = "An error occurred..",
+    val hasSearched: Boolean = false,
 )

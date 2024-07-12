@@ -32,7 +32,8 @@ class UsersViewModel @Inject constructor(private val gitHubRepository: GitHubRep
             oldState.copy(
                 isLoading = true,
                 users = emptyList(),
-                isError = false
+                isError = false,
+                hasSearched = true
             )
         }
 
@@ -47,7 +48,8 @@ class UsersViewModel @Inject constructor(private val gitHubRepository: GitHubRep
                     oldState.copy(
                         isLoading = false,
                         users = usersList!!,
-                        isError = false
+                        isError = false,
+                        hasSearched = true
                     )
 
                 }
@@ -59,7 +61,8 @@ class UsersViewModel @Inject constructor(private val gitHubRepository: GitHubRep
                             isLoading = false,
                             users = emptyList(),
                             isError = true,
-                            errorMessage = it
+                            errorMessage = it,
+                            hasSearched = true
                         )
                     }!!
                 }
