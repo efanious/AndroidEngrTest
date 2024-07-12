@@ -25,22 +25,23 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.example.androidengrtest.common.data.api.models.UserItem
 import com.example.androidengrtest.home.HomeScreen
 import com.example.androidengrtest.repository.RepositoryScreen
-import com.example.androidengrtest.ui.theme.Pink40
 import com.example.androidengrtest.users.UsersScreen
+import com.example.androidengrtest.users.user_details.UserDetailsScreen
 
 @Composable
 fun GeneralHostScreen(
-    modifier: Modifier = Modifier
 ) {
 
     val navController = rememberNavController()
 
     Scaffold(
         bottomBar = {
-            BottomNavigation (modifier = Modifier.background(color = Color.White)) {
+            BottomNavigation(modifier = Modifier.background(color = Color.White)) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
                 items.forEach { screen ->
@@ -51,7 +52,7 @@ fun GeneralHostScreen(
                                 contentDescription = screen.route + "Icon",
                                 modifier = Modifier.size(width = 20.dp, height = 20.dp),
 
-                            )
+                                )
                         },
                         selectedContentColor = Color.Black,
                         label = {
@@ -107,15 +108,37 @@ fun GeneralHostScreen(
                         .padding((8.dp))
                 )
             }
-            composable(Screen.Users.route) {
-                UsersScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding((8.dp))
-                )
 
+            navigation(
+                startDestination = Screen.Users.route,
+                route = Screen.UsersGroup.route
+            ) {
+
+                var selectedUser: UserItem? = null
+
+                composable(Screen.Users.route) {
+                    UsersScreen(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding((8.dp)), onUserClicked = {
+                            selectedUser = it
+                            navController.navigate(Screen.UserDetails.route)
+                        }
+                    )
+
+                }
+
+                composable(Screen.UserDetails.route) {
+                    if (selectedUser != null) {
+                        UserDetailsScreen(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding((8.dp)), selectedUser!!
+                        )
+                    }
+
+                }
             }
-
 
         }
     }
@@ -130,6 +153,8 @@ sealed class Screen(
     data object Home : Screen("home", R.string.home, R.drawable.home_selected)
     data object Repository : Screen("repository", R.string.repository, R.drawable.search_normal)
     data object Users : Screen("users", R.string.users, R.drawable.user_normal)
+    data object UsersGroup : Screen("users_group", R.string.users, R.drawable.user_normal)
+    data object UserDetails : Screen("user_details", R.string.users, R.drawable.user_normal)
 
 }
 
@@ -137,5 +162,5 @@ sealed class Screen(
 val items = listOf(
     Screen.Home,
     Screen.Repository,
-    Screen.Users
+    Screen.UsersGroup
 )

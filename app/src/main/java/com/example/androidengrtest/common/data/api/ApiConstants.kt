@@ -7,4 +7,6 @@ object ApiConstants {
     //All API endpoints
     const val SEARCH_REPOSITORIES =  "/search/repositories?"
     const val SEARCH_USERS =  "/search/users?"
+    const val GET_DETAILED_USER =  "/users/{username}"
+    const val GET_USER_REPOS =  "/users/{username}/repos"
 }
