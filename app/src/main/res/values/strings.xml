@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">AndroidEngrTest</string>
+    <string name="main">Main Group</string>
     <string name="home">Home</string>
+    <string name="repository">Repository</string>
+    <string name="users">Users</string>
 </resources>
